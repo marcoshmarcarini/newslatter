@@ -1,0 +1,24 @@
+.formulario{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputForm{
+    color: #000000;
+    border-radius: 0.25rem;
+}
+
+.inputForm::placeholder{
+    color: #000000;
+}
+
+.input_content_form{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 5px;
+}
