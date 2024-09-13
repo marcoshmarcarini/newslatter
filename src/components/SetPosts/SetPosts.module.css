@@ -1,24 +1,69 @@
-.formulario{
+.set_Posts_content {
     display: flex;
-    justify-content: start;
-    align-items: start;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     gap: 10px;
+    max-width: 658px;
+    width: 100%;
+    position: relative;
+    min-height: 100vh;
 }
 
-.inputForm{
+.inputForm {
     color: #000000;
     border-radius: 0.25rem;
+    max-width: 658px;
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    display: flex;
+    position: relative;
 }
 
-.inputForm::placeholder{
+
+.inputForm::placeholder {
     color: #000000;
 }
 
-.input_content_form{
+.input_content_form {
     display: flex;
     justify-content: start;
     align-items: start;
     flex-direction: column;
     gap: 5px;
+    max-width: 658px;
+    width: 100%;
+    height: 40px;
+    position: relative;
+}
+
+
+.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+    border-color: var(--ck-color-base-border);
+    height: 500px !important;
+}
+
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable, .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners{
+    height: 500px !important;
+}
+
+.ck.ck-editor__editable_inline > *:last-child {
+    margin-bottom: var(--ck-spacing-large);
+    height: 500px !important;
+}
+
+.buttonForm{
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
 }

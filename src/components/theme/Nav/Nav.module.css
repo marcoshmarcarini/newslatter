@@ -1,0 +1,27 @@
+.nav_content{
+    display: flex;
+    height: 80px;
+    background-color: #4c1d95;
+    color: #ffffff;
+}
+
+.nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    width: 100%;
+}
+
+.logo{
+    stroke: #ffffff;
+    fill: #ffffff;
+    color: #ffffff;
+}
+
+.nav_list{
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
