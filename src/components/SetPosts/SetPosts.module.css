@@ -1,8 +1,10 @@
 .set_Posts_content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 80% 20%;
+    justify-content: flex-start;
+    align-items: flex-start;
     position: relative;
+    padding: 50px 0;
 }
 
 .formulario {
@@ -14,7 +16,6 @@
     max-width: 658px;
     width: 100%;
     position: relative;
-    min-height: 100vh;
 }
 
 .inputForm {
@@ -46,24 +47,44 @@
 }
 
 
-.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+
+.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
     border-color: var(--ck-color-base-border);
     height: 500px !important;
 }
 
-.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable, .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners{
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+.ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
     height: 500px !important;
 }
 
-.ck.ck-editor__editable_inline > *:last-child {
+.ck.ck-editor__editable_inline>*:last-child {
     margin-bottom: var(--ck-spacing-large);
     height: 500px !important;
 }
 
-.buttonForm{
+
+.btn_form_content {
     display: flex;
-    position: absolute;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+    margin-top: 10px;
+    gap: 10px;
+    padding: 100px 20px;
+}
+
+.buttonForm {
+    display: flex;
+    position: relative;
     top: 0;
     right: 0;
     cursor: pointer;
+    margin: 0 0 0 auto;
+}
+
+.img_thumb{
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
 }

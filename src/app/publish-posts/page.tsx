@@ -25,6 +25,7 @@ export default function PublishPost() {
         const usubscribe = onAuthStateChanged(auth.auth, (user) => {
             if (user) {
                 setUser(user) // Usuário autenticado
+                console.log(user)
             } else {
                 // Redireciona para a página de login se o usuário não estiver autenticado
                 redirect("/publish-posts")

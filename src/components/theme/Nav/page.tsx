@@ -12,7 +12,7 @@ export default function Nav() {
     }
 
     return (
-        <div className={`${styles.nav_content}`}>
+        <div className={`${styles.nav_content} fixed w-full z-[9999] mb-[100px]`}>
             <nav className={styles.nav}>
                 <div className={styles.nav_brand}>
                     <Link href={rotas.home}>

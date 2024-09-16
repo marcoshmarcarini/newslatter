@@ -1,4 +1,5 @@
 'use client'
+
 import { FormEvent, useEffect, useState } from "react"
 import db from "../../../utils/firebase"
 import storage from "../../../utils/firebase"
@@ -48,14 +49,42 @@ export default function SetPosts() {
         imagem_destaque: null,
     })
 
+    const [day, setDay] = useState(new Date().getDay())
+    const [month, setMonth] = useState(new Date().getMonth())
+    const [year, setYear] = useState(new Date().getFullYear())
+    const [dayMonth, setDayMonth] = useState(`${day}/${month}/${year}`)
+    const [hour, setHour] = useState('')
+    const [hora, setHora] = useState(new Date().getHours())
+    const [minuto, setMinuto] = useState(new Date().getMinutes())
+    const [img, setImg] = useState('')
+
+
+    const [slug, setSlug] = useState('')
 
     useEffect(() => {
         savePosts
     }, [posts])
 
+    useEffect(() => {
+        const handleHour = () => { 
+            setInterval(() =>{
+                setHora(new Date().getHours())
+                setMinuto(new Date().getMinutes())
+                setHour(`${hora < 10 ? `0${hora}` : hora}:${minuto < 10 ? `0${minuto}` : minuto}`)
+                setDay(new Date().getDay())
+                setMonth(new Date().getMonth())
+                setYear(new Date().getFullYear())
+                setDayMonth(`${day}/${month}/${year}`)
+            } , 1000)
+        }
+        handleHour()
+
+    }, [hour, hora, minuto])
+
     const handleFileChange = (e: any) => {
         const file = e.target.files[0]
         setPosts({ ...posts, imagem_destaque: file })
+        setImg(URL.createObjectURL(file))
     }
 
     const savePosts = async (e: any) => {
@@ -102,9 +131,10 @@ export default function SetPosts() {
                     <label htmlFor="">Título</label>
                     <input
                         type="text"
-                        onChange={(e) => setPosts({ ...posts, titulo: e.target.value })}
+                        onChange={(e:any) => setPosts({ ...posts, titulo: e.target.value })}
                         className={`${styles.inputForm}`}
                         placeholder="Titulo"
+                        onInput={(e:any) => setSlug(`/${e.target.value.replaceAll(" ", "-").toLowerCase()}/`)}
                     />
                 </div>
                 <div className={styles.input_content_form}>
@@ -132,6 +162,8 @@ export default function SetPosts() {
                         onChange={handleFileChange}
                         className={`${styles.inputForm}`}
                         placeholder="Imagem Destaque"
+                        
+                        
                     />
                 </div>
                 <div className={styles.input_content_form}>
@@ -269,13 +301,32 @@ export default function SetPosts() {
                         }}
                     />
                 </div>
+
+            </form>
+            <div className={`${styles.btn_form_content} bg-slate-300 h-screen fixed right-0 top-0 bottom-0`}>
+                <p className={`text-sm`}>Clique no botão para publicar</p>
+                <p className={`text-xs`}>Post publicado {dayMonth} às {hour}</p>
+                <p className={`text-[0.7rem] font-bold`}>{`Slug: ${slug}`}</p>
+                <div>
+                    {img && <img src={img} alt="" className={styles.img_thumb}/>}
+                </div>
+                <div className={styles.input_content_form} style={{height: '150px'}}>
+                    <label htmlFor="">Resumo</label>
+                    <textarea
+                        onChange={(e) => setPosts({ ...posts, resumo: e.target.value })}
+                        className={`${styles.inputForm}`}
+                        placeholder="Resumo"
+                        id="resumo"
+                        style={{ height: '150px' }}
+                    />
+                </div>
                 <input
                     type="submit"
                     value="Publicar"
                     onClick={savePosts}
                     className={`${styles.buttonForm} bg-blue-600 text-white py-2 px-4 rounded hover:text-blue-600 hover:bg-white hover:border hover:border-blue-600`}
                 />
-            </form>
+            </div>
         </div>
     )
 }
