@@ -1,11 +1,9 @@
 'use client'
-
 import { useState, useEffect } from "react"
 import { collection, getDocs, orderBy, query } from "firebase/firestore"
 import { getDownloadURL, ref as storageRef } from "firebase/storage"
-import db from "../../../utils/firebase"
-import storage from "../../../utils/firebase"
-import DOMPurify from 'dompurify'
+import db from "../../../../utils/firebase"
+import storage from "../../../../utils/firebase"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -74,6 +72,7 @@ export default function LoadPosts() {
                                     height={300}
                                     src={post.imagem_destaque}
                                     alt={`Imagem de destaque de ${post.titulo}`}
+                                    priority
                                 />
                             )}
                             <p>{post.titulo}</p>

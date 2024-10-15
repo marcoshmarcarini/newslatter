@@ -1,8 +1,9 @@
-import LoadPosts from "@/components/LoadPosts/page";
-import Image from "next/image";
+import LoadPosts from "@/components/home/LoadPosts/page";
 
 export default function Home() {
   return (
-    <LoadPosts />
+    <>
+      <LoadPosts />
+    </>
   );
 }

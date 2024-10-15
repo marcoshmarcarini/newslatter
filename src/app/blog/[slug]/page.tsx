@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react"
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore"
 import db from "../../../../utils/firebase"
-import DOMPurify from 'dompurify'
 import styles from './Slug.module.css'
 
 

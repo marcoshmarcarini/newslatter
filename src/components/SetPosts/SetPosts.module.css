@@ -1,27 +1,45 @@
 .set_Posts_content {
-    display: grid;
-    grid-template-columns: 80% 20%;
+    /* display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: flex-start; */
     position: relative;
-    padding: 50px 0;
+    padding: 50px 20px 70px 0;
+    margin-right: auto;
+    transition: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-wrap: nowrap;
+    gap: 20px;
+    display: grid;
+    grid-template-columns: 70% 30%;
 }
 
 .formulario {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
     gap: 10px;
-    max-width: 658px;
-    width: 100%;
+    width: 700px;
+    height: 70vh;
     position: relative;
+    overflow-y: scroll;
+}
+
+.formulario::-webkit-scrollbar {
+    display: none;
+}
+
+.formulario::-webkit-scrollbar-track {
+    display: none;
+}
+
+.formulario::-webkit-scrollbar-thumb {
+    display: none;
 }
 
 .inputForm {
     color: #000000;
     border-radius: 0.25rem;
-    max-width: 658px;
+    max-width: 660px;
     width: 100%;
     height: 40px;
     padding: 0 10px;
@@ -47,6 +65,29 @@
 }
 
 
+.inputFile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    border: 1px dashed #5b21b6;
+    padding: 5px 10px;
+    color: #5b21b6;
+    background-color: transparent;
+    transition: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.05);
+}
+
+.inputFile:hover {
+    border: 1px solid #5b21b6;
+    background-color: #5b21b6;
+    color: #ffffff;
+    box-shadow: 3px 4px 5px #5b21b650;
+}
+
+.inputFileBtn {
+    display: none;
+}
+
 
 .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
     border-color: var(--ck-color-base-border);
@@ -67,11 +108,12 @@
 .btn_form_content {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: start;
-    margin-top: 10px;
     gap: 10px;
-    padding: 100px 20px;
+    padding: 25px 20px;
+    border-radius: 0.25rem;
+    height: 400px;
 }
 
 .buttonForm {
@@ -83,8 +125,192 @@
     margin: 0 0 0 auto;
 }
 
-.img_thumb{
+.img_thumb {
     width: 300px;
     height: 200px;
     object-fit: cover;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 500px;
+}
+
+.ckeditor {
+    width: 100%;
+    /* Garante que o editor ocupe a largura total */
+    max-width: 500px;
+    min-width: 0;
+    /* Impede que o editor tenha um tamanho mínimo que possa quebrar o layout */
+    box-sizing: border-box;
+    /* Inclui padding e border no tamanho total */
+    display: block;
+    /* Garante que o editor seja exibido corretamente em blocos */
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.ck.ck-editor__main {
+    max-width: 700px;
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.ck-editor__editable {
+    white-space: pre-wrap;
+    /* Mantém a quebra de linha e evita transbordamentos */
+    word-wrap: break-word;
+    /* Quebra as palavras longas quando necessário */
+    overflow-wrap: break-word;
+    /* Garante a quebra em casos de palavras longas */
+    box-sizing: border-box;
+    /* Garante que padding e borders não alterem o tamanho do editor */
+    max-width: 100%;
+    /* Impede que o conteúdo ultrapasse a largura do contêiner */
+    min-width: 300px;
+}
+
+.ck-editor__editable_inline {
+    min-height: 500px;
+}
+
+.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    border-color: var(--ck-color-base-border);
+    max-width: 700px;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred {
+    height: 200px !important;
+    overflow-y: scroll !important;
+}
+
+.document-editor__editable-container {
+    padding: calc(2 * var(--ck-spacing-large));
+    background: var(--ck-color-base-foreground);
+    /* Make it possible to scroll the "page" of the edited content. */
+    overflow-y: scroll;
+}
+
+
+
+@media(max-width:991px) {
+    .set_Posts_content {
+        flex-wrap: wrap-reverse;
+        gap: 20px;
+        overflow-y: scroll;
+        margin: 0 0 100px 0;
+        padding: 20px 20px 120px 0;
+    }
+
+    .btn_form_content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 25px 20px;
+        border-radius: 0.25rem;
+        max-width: 658px;
+        width: 100%;
+    }
+
+    .formulario {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 700px;
+        width: 100%;
+        height: 70vh;
+        position: relative;
+        overflow-y: scroll;
+    }
+
+    .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+        border-color: var(--ck-color-base-border);
+        max-width: 700px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn_form_content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 25px 20px;
+        border-radius: 0.25rem;
+        max-width: 558px;
+        width: 100%;
+    }
+
+    .formulario {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 558px;
+        width: 100%;
+        height: 70vh;
+        position: relative;
+        overflow-y: scroll;
+    }
+
+    .ckeditor {
+        height: auto;
+        min-height: 150px;
+    }
+
+    .ck-editor__editable {
+        min-height: 100px;
+        max-height: 300px;
+    }
+
+    .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+        border-color: var(--ck-color-base-border);
+        max-width: 700px;
+        height: 250px !important;
+    }
+}
+
+@media(max-width: 500px) {
+    .btn_form_content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 25px 20px;
+        border-radius: 0.25rem;
+        max-width: 358px;
+        width: 100%;
+    }
+
+    .formulario {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 358px;
+        width: 100%;
+        height: 70vh;
+        position: relative;
+        overflow-y: scroll;
+    }
+
+    .ckeditor {
+        min-height: 100px;
+    }
+
+    .ck-editor__editable {
+        min-height: 80px;
+        max-height: 200px;
+    }
 }

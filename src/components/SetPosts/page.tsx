@@ -8,39 +8,18 @@ import { addDoc, collection, doc, documentId, setDoc } from "firebase/firestore"
 import styles from "./SetPosts.module.css"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 import {
-    ClassicEditor,
-    Autoformat,
-    Bold,
-    Italic,
-    Underline,
-    BlockQuote,
-    Base64UploadAdapter,
-    CloudServices,
-    CKBox,
-    Essentials,
-    Heading,
-    Image,
-    ImageCaption,
-    ImageResize,
-    ImageStyle,
-    ImageToolbar,
-    ImageUpload,
-    PictureEditing,
-    Indent,
-    IndentBlock,
-    Link,
-    List,
-    MediaEmbed,
-    Mention,
-    Paragraph,
-    PasteFromOffice,
-    Table,
-    TableColumnResize,
-    TableToolbar,
-    TextTransformation,
+    ClassicEditor, Autoformat, Bold,
+    Italic, Underline, BlockQuote,
+    Base64UploadAdapter, CloudServices, CKBox,
+    Essentials, Heading, Image,
+    ImageCaption, ImageResize, ImageStyle,
+    ImageToolbar, ImageUpload, PictureEditing,
+    Indent, IndentBlock, Link, List,
+    MediaEmbed, Mention, Paragraph,
+    PasteFromOffice, Table, TableColumnResize,
+    TableToolbar, TextTransformation,
 } from 'ckeditor5'
 import 'ckeditor5/ckeditor5.css'
-import MyCustomUploadAdapterPlugin from "../UploadAdapter/page"
 
 export default function SetPosts() {
     const [posts, setPosts] = useState({
@@ -53,12 +32,7 @@ export default function SetPosts() {
     const [month, setMonth] = useState(new Date().getMonth())
     const [year, setYear] = useState(new Date().getFullYear())
     const [dayMonth, setDayMonth] = useState(`${day}/${month}/${year}`)
-    const [hour, setHour] = useState('')
-    const [hora, setHora] = useState(new Date().getHours())
-    const [minuto, setMinuto] = useState(new Date().getMinutes())
     const [img, setImg] = useState('')
-
-
     const [slug, setSlug] = useState('')
 
     useEffect(() => {
@@ -66,20 +40,14 @@ export default function SetPosts() {
     }, [posts])
 
     useEffect(() => {
-        const handleHour = () => { 
-            setInterval(() =>{
-                setHora(new Date().getHours())
-                setMinuto(new Date().getMinutes())
-                setHour(`${hora < 10 ? `0${hora}` : hora}:${minuto < 10 ? `0${minuto}` : minuto}`)
-                setDay(new Date().getDay())
-                setMonth(new Date().getMonth())
-                setYear(new Date().getFullYear())
-                setDayMonth(`${day}/${month}/${year}`)
-            } , 1000)
+        const handleHour = () => {
+            setDay(new Date().getDay())
+            setMonth(new Date().getMonth())
+            setYear(new Date().getFullYear())
+            setDayMonth(`${day}/${month}/${year}`)
         }
         handleHour()
-
-    }, [hour, hora, minuto])
+    }, [day, month, year, dayMonth])
 
     const handleFileChange = (e: any) => {
         const file = e.target.files[0]
@@ -89,8 +57,6 @@ export default function SetPosts() {
 
     const savePosts = async (e: any) => {
         e.preventDefault()
-
-        // Upload do post sem imagem inicialmente
         const postsCollection = collection(db.db, "Post")
         const docSnap = await addDoc(postsCollection, {
             slug: posts.titulo.replaceAll(" ", "-").toLowerCase(),
@@ -100,21 +66,14 @@ export default function SetPosts() {
             texto: posts.texto,
             timeStamp: new Date().getTime(),
         })
-
-        // Se houver imagem, faz o upload e salva a URL
         if (posts.imagem_destaque) {
             const imageRef = ref(storage.storage, `images/${docSnap.id}`)
             await uploadBytes(imageRef, posts.imagem_destaque)
-
             const imageUrl = await getDownloadURL(imageRef)
-
-            // Atualizar o post com a URL da imagem
             await setDoc(doc(db.db, "Post", docSnap.id), {
                 imagem_destaque: imageUrl
             }, { merge: true })
         }
-
-        console.log("Post publicado com o ID: ", docSnap.id)
 
         setPosts({
             ...posts,
@@ -131,10 +90,10 @@ export default function SetPosts() {
                     <label htmlFor="">Título</label>
                     <input
                         type="text"
-                        onChange={(e:any) => setPosts({ ...posts, titulo: e.target.value })}
+                        onChange={(e: any) => setPosts({ ...posts, titulo: e.target.value })}
                         className={`${styles.inputForm}`}
                         placeholder="Titulo"
-                        onInput={(e:any) => setSlug(`/${e.target.value.replaceAll(" ", "-").toLowerCase()}/`)}
+                        onInput={(e: any) => setSlug(`/${e.target.value.replaceAll(" ", "-").toLowerCase()}/`)}
                     />
                 </div>
                 <div className={styles.input_content_form}>
@@ -156,73 +115,49 @@ export default function SetPosts() {
                     />
                 </div>
                 <div className={styles.input_content_form}>
-                    <label htmlFor="">Imagem de Destaque</label>
+                    <label
+                        htmlFor="imagem_destaque"
+                        className={`${styles.inputFile}`}
+                    >
+                        Imagem de Destaque
+                    </label>
                     <input
                         type="file"
                         onChange={handleFileChange}
-                        className={`${styles.inputForm}`}
+                        className={`${styles.inputForm} ${styles.inputFileBtn}`}
                         placeholder="Imagem Destaque"
-                        
-                        
+                        id="imagem_destaque"
+
                     />
                 </div>
-                <div className={styles.input_content_form}>
+                <div /* className={styles.input_content_form} */>
                     <label htmlFor="text">Texto</label>
                     <CKEditor
                         editor={ClassicEditor}
                         config={{
-                            toolbar: [
-                                'undo',
-                                'redo',
-                                '|',
-                                'heading',
-                                '|',
-                                'bold',
-                                'italic',
-                                'underline',
-                                '|',
-                                'link',
-                                'uploadImage',
-                                'ckbox',
-                                'insertTable',
-                                'blockQuote',
-                                'mediaEmbed',
-                                '|',
-                                'bulletedList',
-                                'numberedList',
-                                '|',
-                                'outdent',
-                                'indent',
-                            ],
+                            toolbar: {
+                                items: [
+                                    'undo', 'redo', '|',
+                                    'heading', '|',
+                                    'bold', 'italic', 'underline', '|',
+                                    'link', 'uploadImage', 'ckbox',
+                                    'insertTable', 'blockQuote', 'mediaEmbed', '|',
+                                    'bulletedList', 'numberedList', '|',
+                                    'outdent', 'indent',
+                                ],
+                                shouldNotGroupWhenFull: true,
+                            },
                             plugins: [
-                                Autoformat,
-                                BlockQuote,
-                                Bold,
-                                CloudServices,
-                                Essentials,
-                                Heading,
-                                Image,
-                                ImageCaption,
-                                ImageResize,
-                                ImageStyle,
-                                ImageToolbar,
-                                ImageUpload,
-                                Base64UploadAdapter,
-                                Indent,
-                                IndentBlock,
-                                Italic,
-                                Link,
-                                List,
-                                MediaEmbed,
-                                Mention,
-                                Paragraph,
-                                PasteFromOffice,
-                                PictureEditing,
-                                Table,
-                                TableColumnResize,
-                                TableToolbar,
-                                TextTransformation,
-                                Underline,
+                                Autoformat, BlockQuote, Bold,
+                                CloudServices, Essentials, Heading,
+                                Image, ImageCaption, ImageResize,
+                                ImageStyle, ImageToolbar, ImageUpload,
+                                Base64UploadAdapter, Indent, IndentBlock,
+                                Italic, Link, List,
+                                MediaEmbed, Mention, Paragraph,
+                                PasteFromOffice, PictureEditing,
+                                Table, TableColumnResize, TableToolbar,
+                                TextTransformation, Underline,
                             ],
                             initialData: '<h1>Escreva o conteúdo do Post aqui!</h1>',
                             heading: {
@@ -259,21 +194,27 @@ export default function SetPosts() {
                                 ],
                             },
                             image: {
+                                resizeUnit: '%',
                                 resizeOptions: [
                                     {
                                         name: 'resizeImage:original',
-                                        label: 'Default image width',
+                                        label: 'Original size',
                                         value: null,
                                     },
                                     {
                                         name: 'resizeImage:50',
-                                        label: '50% page width',
+                                        label: '50%',
                                         value: '50',
                                     },
                                     {
                                         name: 'resizeImage:75',
-                                        label: '75% page width',
+                                        label: '75%',
                                         value: '75',
+                                    },
+                                    {
+                                        name: 'resizeImage:100',
+                                        label: '100%',
+                                        value: '100',
                                     },
                                 ],
                                 toolbar: [
@@ -281,10 +222,12 @@ export default function SetPosts() {
                                     'toggleImageCaption',
                                     '|',
                                     'imageStyle:inline',
-                                    'imageStyle:wrapText',
-                                    'imageStyle:breakText',
+                                    'imageStyle:block',
+                                    'imageStyle:side',
                                     '|',
-                                    'resizeImage',
+                                    'resizeImage:50',
+                                    'resizeImage:75',
+                                    'resizeImage:100',
                                 ],
                             },
                             link: {
@@ -294,6 +237,8 @@ export default function SetPosts() {
                             table: {
                                 contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
                             },
+
+
                         }}
                         onChange={(event: any, editor: any) => {
                             const data = editor.getData()
@@ -303,14 +248,15 @@ export default function SetPosts() {
                 </div>
 
             </form>
-            <div className={`${styles.btn_form_content} bg-slate-300 h-screen fixed right-0 top-0 bottom-0`}>
+            <div className={`${styles.btn_form_content} bg-slate-300  `}>
+                <p className={`font-bold border-b-2 border-blue-600 text-md text-start mr-auto`}>Publicar</p>
                 <p className={`text-sm`}>Clique no botão para publicar</p>
-                <p className={`text-xs`}>Post publicado {dayMonth} às {hour}</p>
+                <p className={`text-xs`}>Post publicado {dayMonth}.</p>
                 <p className={`text-[0.7rem] font-bold`}>{`Slug: ${slug}`}</p>
                 <div>
-                    {img && <img src={img} alt="" className={styles.img_thumb}/>}
+                    {img && <img src={img} alt="" className={styles.img_thumb} />}
                 </div>
-                <div className={styles.input_content_form} style={{height: '150px'}}>
+                <div className={styles.input_content_form} style={{ height: '150px' }}>
                     <label htmlFor="">Resumo</label>
                     <textarea
                         onChange={(e) => setPosts({ ...posts, resumo: e.target.value })}
